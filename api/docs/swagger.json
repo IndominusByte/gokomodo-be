@@ -1,0 +1,385 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Restful API",
+    "description": "Documentation",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login User",
+        "description": "create access & refresh token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schema/AuthLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": null,
+                  "results": {
+                    "access_token": "string",
+                    "refresh_token": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation Failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 400,
+                  "status": false,
+                  "message": "Validation Failed.",
+                  "detail_message": {
+                    "_app": "Please check your email to activate your account."
+                  },
+                  "results": null
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/fresh-token": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Fresh Token",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schema/UserConfirmPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": null,
+                  "results": {
+                    "_app": {
+                      "access_token": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ]
+      }
+    },
+    "/auth/refresh-token": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Refresh Token",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": null,
+                  "results": {
+                    "_app": {
+                      "access_token": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "RefreshToken": []
+          }
+        ]
+      }
+    },
+    "/auth/access-revoke": {
+      "delete": {
+        "tags": ["auth"],
+        "summary": "Access Revoke",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": {
+                    "_app": "An access token has revoked."
+                  },
+                  "results": null
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ]
+      }
+    },
+    "/auth/refresh-revoke": {
+      "delete": {
+        "tags": ["auth"],
+        "summary": "Refresh Revoke",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": {
+                    "_app": "An refresh token has revoked."
+                  },
+                  "results": null
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "RefreshToken": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AccessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "RefreshToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schema": {
+      "ExampleResponse": {
+        "title": "ExampleResponse",
+        "type": "object",
+        "required": ["status_code", "status", "message"],
+        "properties": {
+          "status_code": {
+            "title": "status_code",
+            "type": "integer"
+          },
+          "status": {
+            "title": "status",
+            "type": "boolean"
+          },
+          "message": {
+            "title": "message",
+            "type": "string"
+          },
+          "detail_message": {
+            "title": "detail_message",
+            "type": "string"
+          },
+          "results": {
+            "title": "results",
+            "type": "object"
+          }
+        }
+      },
+      "AuthLogin": {
+        "title": "AuthLogin",
+        "required": ["email", "password"],
+        "type": "object",
+        "properties": {
+          "email": {
+            "title": "Email",
+            "maxLength": 100,
+            "minLength": 3,
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "title": "Password",
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string"
+          }
+        }
+      },
+      "UserConfirmPassword": {
+        "title": "UserConfirmPassword",
+        "required": ["password"],
+        "type": "object",
+        "properties": {
+          "password": {
+            "title": "Password",
+            "maxLength": 100,
+            "minLength": 6,
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
