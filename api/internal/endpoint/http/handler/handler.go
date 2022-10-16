@@ -7,7 +7,11 @@ import (
 	"github.com/IndominusByte/gokomodo-be/api/internal/config"
 	endpoint_http "github.com/IndominusByte/gokomodo-be/api/internal/endpoint/http"
 	authrepo "github.com/IndominusByte/gokomodo-be/api/internal/repo/auth"
+	ordersrepo "github.com/IndominusByte/gokomodo-be/api/internal/repo/orders"
+	productsrepo "github.com/IndominusByte/gokomodo-be/api/internal/repo/products"
 	authusecase "github.com/IndominusByte/gokomodo-be/api/internal/usecase/auth"
+	ordersusecase "github.com/IndominusByte/gokomodo-be/api/internal/usecase/orders"
+	productsusecase "github.com/IndominusByte/gokomodo-be/api/internal/usecase/products"
 	"github.com/creent-production/cdk-go/auth"
 	"github.com/creent-production/cdk-go/filestatic"
 	"github.com/go-chi/chi/v5"
@@ -65,6 +69,20 @@ func (s *Server) MountHandlers() error {
 	}
 	authUsecase := authusecase.NewAuthUsecase(authRepo)
 	endpoint_http.AddAuth(s.Router, authUsecase, s.redisCli, s.cfg)
+
+	productsRepo, err := productsrepo.New(s.db)
+	if err != nil {
+		return err
+	}
+	productsUsecase := productsusecase.NewProductsUsecase(productsRepo, authRepo)
+	endpoint_http.AddProducts(s.Router, productsUsecase, s.redisCli)
+
+	ordersRepo, err := ordersrepo.New(s.db)
+	if err != nil {
+		return err
+	}
+	ordersUsecase := ordersusecase.NewOrdersUsecase(ordersRepo, authRepo)
+	endpoint_http.AddOrders(s.Router, ordersUsecase, s.redisCli)
 
 	return nil
 }

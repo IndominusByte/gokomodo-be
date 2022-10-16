@@ -15,7 +15,7 @@ type RepoAuth struct {
 }
 
 var queries = map[string]string{
-	"getUserByDynamic": `SELECT id, email, password FROM account.users`,
+	"getUserByDynamic": `SELECT id, email, password, address FROM account.users`,
 }
 var execs = map[string]string{}
 
